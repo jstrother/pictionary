@@ -1,5 +1,6 @@
 const $ = require('jquery');
 const HB = require('handlebars');
+const socket = io();
 
 $(document).ready(function() {
 	pictionary();
@@ -22,12 +23,14 @@ function pictionary() {
 	});
 
 	canvas.on('mousemove', function(event) {
+		console.log(drawing);
 		if (!drawing) return;
 
 		let offset = canvas.offset();
 		var position = {x: event.pageX - offset.left,
 										y: event.pageY - offset.top};
 		draw(position);
+		console.log(position);
 		socket.emit('draw', position);
 	});
 

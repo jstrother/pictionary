@@ -15,6 +15,6 @@ io.on('connection', function(socket) {
 		console.log('Drawing');
 		socket.broadcast.emit('draw', position);
 	});
-})
+});
 
 server.listen(8080);
