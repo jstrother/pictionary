@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "browserify public/main.js > public/scripts.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
+    "handlebars": "^4.0.5",
+    "jquery": "^2.2.4",
     "socket.io": "^1.4.6"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.1"
   }
 }
