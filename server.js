@@ -9,10 +9,8 @@ const server = http.Server(app);
 const	 io = socket_io(server);
 
 io.on('connection', function(socket) {
-	console.log('Client Connected');
 
 	socket.on('draw', function(position) {
-		console.log('Drawing');
 		socket.broadcast.emit('draw', position);
 	});
 });

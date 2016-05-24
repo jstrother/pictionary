@@ -1,8 +1,9 @@
 const $ = require('jquery');
 const HB = require('handlebars');
+const io = require('socket.io-client');
+const socket = io();
 
 $(document).ready(function() {
-	const socket = io();
 	pictionary();
 });
 
@@ -23,18 +24,20 @@ function pictionary() {
 	});
 
 	canvas.on('mousemove', function(event) {
-		console.log(drawing);
+		if (drawing) {
+		}
 		if (!drawing) return;
 
 		let offset = canvas.offset();
 		var position = {x: event.pageX - offset.left,
 										y: event.pageY - offset.top};
 		draw(position);
-		console.log(position);
 		socket.emit('draw', position);
 	});
 
-	socket.on('draw', draw(position));
+	socket.on('draw', function(position) {
+		draw(position);
+	});
 
 	function draw(position) {
 		context.beginPath();
