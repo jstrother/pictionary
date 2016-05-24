@@ -18054,9 +18054,9 @@ process.umask = function() { return 0; };
 },{}],47:[function(require,module,exports){
 const $ = require('jquery');
 const HB = require('handlebars');
-const socket = io();
 
 $(document).ready(function() {
+	const socket = io();
 	pictionary();
 });
 

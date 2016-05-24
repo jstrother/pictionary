@@ -1,12 +1,12 @@
 const http = require('http');
 const express = require('express');
-const socket = require('socket.io');
+const socket_io = require('socket.io');
 
 const app = express();
 app.use(express.static('public'));
 
 const server = http.Server(app);
-const	 io = socket(server);
+const	 io = socket_io(server);
 
 io.on('connection', function(socket) {
 	console.log('Client Connected');

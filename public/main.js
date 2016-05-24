@@ -1,8 +1,8 @@
 const $ = require('jquery');
 const HB = require('handlebars');
-const socket = io();
 
 $(document).ready(function() {
+	const socket = io();
 	pictionary();
 });
 
