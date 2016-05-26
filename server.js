@@ -17,6 +17,10 @@ io.on('connection', function(socket) {
 	socket.on('guess', function(guess) {
 		socket.broadcast.emit('guess', guess);
 	});
+
+	socket.on('value', function(value) {
+		socket.broadcast.emit('value', value);
+	});
 });
 
 server.listen(8080);

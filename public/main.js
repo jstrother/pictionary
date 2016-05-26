@@ -41,35 +41,45 @@ function pictionary() {
 		guessing(guess);
 	});
 
+	socket.on('value', function(value) {
+		if (value === 'correct') {
+			$('#answer').text('Yes! That\'s correct!');
+		} else {
+			$('#answer').text('Sorry.  That\'s incorrect.');
+		}
+	});
+
+	var guessBox = $('#guess input');
+	guessBox.on('keydown', onKeyDown);
+
 	function draw(position) {
 		context.beginPath();
 		context.arc(position.x, position.y, 6, 0, 2 * Math.PI);
 		context.fill();
 	}
 
-	var guessBox = $('#guess input');
-	guessBox.on('keydown', onKeyDown);
-
-
 	function onKeyDown(event) {
 		if (event.keyCode != 13) {
 			return;
 		}
 		guessBox.val();
-		console.log(guessBox.val());
 		socket.emit('guess', guessBox.val());
 		guessBox.val('');
 	}
 
 	function guessing(guess) {
-		var message = `<div class="guesses">
-										${guess}<br>
-										<form id="guessForm">
-											<input type="radio" name="guess" value="correct">Correct
-											<input type="radio" name="guess" value="incorrect">Incorrect
-											<button type="submit">Respond</button>
-										</form>
-									</div>`;
-		$('#top-message').append(message);
+		$('#guesses').remove();
+		const message = `<div id="guesses">${guess}<br>
+											<form id="guessForm">
+												<label><input type="radio" name="guess" value="correct">Correct</label>
+												<label><input type="radio" name="guess" value="incorrect">Incorrect</label>
+												<button type="button" id="respond">Respond</button>
+											</form>
+										</div>`;
+		$('#answer').append(message);
+		$('#respond').on('click', function() {
+			var value = $('input[name="guess"]:checked').val();
+			socket.emit('value', value);
+		});
 	}
 }
