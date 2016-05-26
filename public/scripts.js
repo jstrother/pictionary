@@ -25316,16 +25316,12 @@ function pictionary() {
 	});
 
 	canvas.on('mousemove', function(event) {
-		if (drawing) {
-			console.log("drawing");
-		}
 		if (!drawing) return;
 
 		let offset = canvas.offset();
 		var position = {x: event.pageX - offset.left,
 										y: event.pageY - offset.top};
 		draw(position);
-		console.log(position);
 		socket.emit('draw', position);
 	});
 
@@ -25333,10 +25329,39 @@ function pictionary() {
 		draw(position);
 	});
 
+	socket.on('guess', function(guess) {
+		guessing(guess);
+	});
+
 	function draw(position) {
 		context.beginPath();
 		context.arc(position.x, position.y, 6, 0, 2 * Math.PI);
 		context.fill();
+	}
+
+	var guessBox = $('#guess input');
+	guessBox.on('keydown', onKeyDown);
+
+
+	function onKeyDown(event) {
+		if (event.keyCode != 13) {
+			return;
+		}
+		guessBox.val();
+		console.log(guessBox.val());
+		socket.emit('guess', guessBox.val());
+		guessBox.val('');
+	}
+
+	function guessing(guess) {
+		var message = `<div class="guesses">
+										${guess}<br>
+										<form>
+											<input type="radio" name="guess" value="correct">Correct
+											<input type="radio" name="guess" value="incorrect">Incorrect
+										</form>
+									</div>`;
+		$('#top-message').append(message);
 	}
 }
 },{"handlebars":56,"jquery":72,"socket.io-client":79}]},{},[92]);
